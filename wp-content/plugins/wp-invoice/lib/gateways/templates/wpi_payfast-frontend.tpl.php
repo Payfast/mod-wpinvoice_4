@@ -64,6 +64,7 @@ else
     $pfOutput = $pfOutput."passphrase=".urlencode( $passPhrase );
 }
 $formData['signature'] = md5($pfOutput);
+$formData['user_agent'] = 'WPInvoice 4.x';
 ?>
 <form id="process_payment_form" class="wpi_checkout online_payment_form <?php print $this->type; ?> clearfix">
   <input type='hidden' value="<?php echo $invoice['invoice_id'];?>" name="invoice_id">
