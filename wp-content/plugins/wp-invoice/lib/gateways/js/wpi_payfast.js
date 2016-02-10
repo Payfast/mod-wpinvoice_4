@@ -24,22 +24,38 @@ var wpi_payfast_validate_form = function(){
   return true;
 };
 
+/* This function handles the submit event */
+var wpi_payfast_submit = function(){
 
-jQuery(document).ready(function(){
-  jQuery( "#payfast_payment" ).submit(function(e){
-    e.preventDefault();
-    var paymentForm = jQuery(this);
-    var url = wpi_ajax.url+"?action=wpi_gateway_process_payment&type=wpi_payfast";
-    var userInfo = jQuery('#process_payment_form').serialize();
-    jQuery.ajax({
-            url: url,
-            type: 'post',
-            data: userInfo,
-            success: function(msg){
-              if ( msg == 1 && wpi_payfast_validate_form) {
-                paymentForm.unbind('submit').submit();
-                }
-              }
-            })
-  });
-})
+    jQuery( "#cc_pay_button" ).attr("disabled", "disabled");
+    jQuery( ".loader-img" ).show();
+    var success = false;
+    var url = wpi_ajax.url+"?action="+jQuery("#wpi_action").val();
+    jQuery.ajaxSetup({
+        async: false
+    });
+    jQuery.post(
+        url,
+        jQuery("#online_payment_form-wpi_payfast").serialize(),
+        function(msg){
+            jQuery.ajaxSetup({
+                async: true
+            });
+            if ( msg.success == 1 ) {
+                success = true;
+            } else if ( msg.error == 1 ) {
+              var message = '';
+              jQuery.each( msg.data.messages, function(k, v){
+                message += v +'\n\n';
+              });
+              alert( message );
+              location.reload(true);
+            }
+        }, 'json');
+    return success;
+
+};
+
+function wpi_payfast_init_form() {
+    jQuery("#online_payment_form_wrapper").trigger('formLoaded');
+}
