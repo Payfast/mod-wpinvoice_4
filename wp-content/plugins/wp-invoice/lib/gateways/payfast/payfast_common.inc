@@ -159,6 +159,7 @@ function pfValidSignature( $pfData = null, &$pfParamString = null, $pfPassphrase
             break;
         }
     }
+    pflog('params: ' . $pfParamString);
 
     // Remove the last '&' from the parameter string
     $pfParamString = substr( $pfParamString, 0, -1 );
@@ -170,7 +171,7 @@ function pfValidSignature( $pfData = null, &$pfParamString = null, $pfPassphrase
     {
        $tempParamString = $pfParamString."&passphrase=".urlencode( $pfPassphrase );
     }
-    $signature = md5( $pfParamString );
+    $signature = md5( $tempParamString );
     
     $result = ( $pfData['signature'] == $signature );
 
@@ -196,6 +197,7 @@ function pfValidData( $pfHost = 'www.payfast.co.za', $pfParamString = '', $pfPro
     // Use cURL (if available)
     if( defined( 'PF_CURL' ) )
     {
+
         // Variable initialization
         $url = 'https://'. $pfHost .'/eng/query/validate';
 

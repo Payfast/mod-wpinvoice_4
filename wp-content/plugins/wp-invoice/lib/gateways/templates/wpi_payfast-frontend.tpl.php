@@ -42,9 +42,24 @@ $formData = array(
     'notify_url'=>admin_url('admin-ajax.php?action=wpi_gateway_server_callback&type=wpi_payfast'),
     'm_payment_id'=>$invoice['invoice_id'],
     'amount'=>number_format( (float)$invoice['net'], 2, '.', '' ),
-    'item_name'=>$invoice['post_title']
+    'item_name'=>$invoice['post_title'],
     );
-$pfOutput = '';
+
+// Add subscription variables if subscription billing
+$frequency = $invoice['recurring']['wpi_payfast']['interval'];
+$cycles = (int)$invoice['recurring']['wpi_payfast']['cycles'];
+
+if ( !empty( $frequency ) && !empty( $cycles ) )
+{
+ //   $formData['m_subscription_id'] = $invoice['invoice_id'];
+    $formData['custom_str1'] = gmdate( 'Y-m-d' );
+    $formData['subscription_type'] = 1;
+    $formData['billing_date'] = gmdate( 'Y-m-d' );
+    $formData['recurring_amount'] = number_format( (float)$invoice['net'], 2, '.', '' );
+    $formData['frequency'] = $frequency;
+    $formData['cycles'] = $cycles;
+}
+
 // Create output string
 foreach( $formData as $key => $val )
 {
