@@ -475,7 +475,7 @@ class wpi_payfast extends wpi_gateway_base
             pflog( 'Error occurred: '. $pfErrMsg );
         }
 
-    if ( !empty( $pfData['token'] && !$pfError ) )
+    if ( !empty( $pfData['token'] ) && !$pfError )
     {
         if ( $pfData['payment_status'] == 'COMPLETE' && strtotime( $pfData['custom_str1'] ) <= strtotime( gmdate( 'Y-m-d' ). '+ 2 days' ) )
         {
