@@ -382,7 +382,7 @@ class wpi_payfast extends wpi_gateway_base
     $pfErrMsg = '';
     $pfDone = false;
     $pfData = array();
-    $pfHost = ( ( $invoice->data['billing']['wpi_payfast']['settings']['test_mode']['value'] == 'true' ) ? 'sandbox' : 'www' ) . '.payfast.co.za';
+    $pfHost = ( ( $invoice->data['billing']['wpi_payfast']['settings']['payfast_test_mode']['value'] == 'true' ) ? 'sandbox' : 'www' ) . '.payfast.co.za';
     $pfOrderId = '';
     $pfParamString = '';
 
@@ -414,8 +414,15 @@ class wpi_payfast extends wpi_gateway_base
     {
         pflog( 'Verify security signature' );
 
-        $passPhrase = $invoice->data['billing']['wpi_payfast']['settings']['payfast_passphrase']['value'];
-        $pfPassPhrase = empty( $passPhrase ) ? null : $passPhrase;
+        if ( $invoice->data['billing']['wpi_payfast']['settings']['payfast_test_mode']['value'] == 'true' )
+        {
+            $pfPassPhrase = null;
+        }
+        else
+        {
+            $passPhrase = $invoice->data['billing']['wpi_payfast']['settings']['payfast_passphrase']['value'];
+            $pfPassPhrase = empty( $passPhrase ) ? null : $passPhrase;
+        }
 
         // If signature different, log for debugging
         if( !pfValidSignature( $pfData, $pfParamString, $pfPassPhrase ) )
