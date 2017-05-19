@@ -19,8 +19,8 @@ You will need a working installation of WordPress and WP-Invoice v 4 in order to
 
 Note: When creating an invoice the current PayFast configuration is set to that invoice.
 
-*
-Please see the URL below for all information concerning this module: *
-*
-http://www.payfast.co.za/developers/wp-invoice *
-* **
+*********************************************************************
+Please see the URL below for all information concerning this module:
+
+http://www.payfast.co.za/developers/wp-invoice
+*********************************************************************
