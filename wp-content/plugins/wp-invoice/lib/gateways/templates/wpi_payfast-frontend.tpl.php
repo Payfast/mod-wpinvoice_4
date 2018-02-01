@@ -75,6 +75,8 @@ foreach($formData as $k=>$v)
 {
 echo "    <input id='$k' type='hidden' name='$k' value='$v'>";
 }
-?>  
+?>
+    <?php do_action('wpi_after_payment_fields', $invoice); ?>
+    <input type="hidden" name="security" value="<?php echo $process_payment_nonce; ?>">
     <input id='process_payment' type="submit" value="<?php _e('Pay Now With PayFast ', WPI); ?>">          
 </form>
